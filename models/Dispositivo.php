@@ -17,7 +17,7 @@ use Yii;
  * @property Ordenador $ordenador
  * @property RegistroDisp[] $registroDisps
  */
-class Dispositivos extends \yii\db\ActiveRecord
+class Dispositivo extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
