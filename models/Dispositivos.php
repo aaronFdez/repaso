@@ -13,8 +13,8 @@ use Yii;
  * @property integer $ordenador_id
  * @property integer $aula_id
  *
- * @property Aulas $aula
- * @property Ordenadores $ordenador
+ * @property Aula $aula
+ * @property Ordenador $ordenador
  * @property RegistroDisp[] $registroDisps
  */
 class Dispositivos extends \yii\db\ActiveRecord
