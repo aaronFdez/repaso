@@ -24,8 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'marca_ord',
             'modelo_ord',
-            'aula.den_aula',
-
+            [
+                'attribute' => 'aula_id',
+                'value' => 'aula.den_aula'
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
