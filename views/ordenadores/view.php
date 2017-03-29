@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Ordenador */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Ordenadors', 'url' => ['index']];
+$this->title = $model->marca_ord . ' ' . $model->modelo_ord;
+$this->params['breadcrumbs'][] = ['label' => 'Ordenadores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ordenador-view">
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'marca_ord',
             'modelo_ord',
-            'aula_id',
+            "aula.den_aula:text:Aula",
         ],
     ]) ?>
 
