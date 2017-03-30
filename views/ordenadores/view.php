@@ -1,5 +1,8 @@
 <?php
 
+use yii\data\Pagination;
+use yii\data\ActiveDataProvider;
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -34,4 +37,16 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <?= GridView::widget([
+        'dataProvider' => new ActiveDataProvider([
+            'query' => $model->getDispositivos(), // El getDispositivos devuelve una query
+            'pagination'=>new Pagination([
+                'pageSize' => 1,
+            ]),
+        ]),
+        'columns' => [
+            'marca_disp',
+            'modelo_disp',
+        ],
+    ]);?>
 </div>
