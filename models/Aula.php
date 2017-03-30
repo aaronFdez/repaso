@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 
 /**
  * This is the model class for table "aulas".
@@ -47,6 +46,15 @@ class Aula extends \yii\db\ActiveRecord
             'id' => 'ID',
             'den_aula' => 'Nombre del aula',
         ];
+    }
+
+    public static function findDropDownList()
+    {
+        return self::find()
+            ->select('den_aula')
+            ->indexBy('id')
+            ->orderBy('den_aula')
+            ->column();
     }
 
     /**
