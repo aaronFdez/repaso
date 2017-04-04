@@ -2,6 +2,7 @@
 
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
+use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -18,11 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Modificar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Borrar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => "¿Está usted seguro que desea borrar $this->title?",
                 'method' => 'post',
             ],
         ]) ?>
@@ -39,14 +40,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => new ActiveDataProvider([
-            'query' => $model->getDispositivos(), // El getDispositivos devuelve una query
-            'pagination'=>new Pagination([
-                'pageSize' => 1,
-            ]),
+            'query' => $model->getDispositivos(),
         ]),
         'columns' => [
             'marca_disp',
             'modelo_disp',
+            [ 'class' => ActionColumn::className() ],
         ],
-    ]);?>
+    ]) ?>
+
 </div>

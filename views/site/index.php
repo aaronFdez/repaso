@@ -14,7 +14,7 @@ $this->title = 'My Yii Application';
 
     <div class="jumbotron">
         <h1>Instituto Doñana</h1>
-        <?= Html::img("http://wiki.iesdonana.org/lib/exe/fetch.php/donana.png?cache=&w=900&h=477&tok=b46fd3", ['width'=>'500px', 'height'=>'300px']) ?>
+        <?= Html::img("http://images.schoolmars.es/school-470x330-web/ies-donana.jpg", ['width'=>'500px', 'height'=>'300px']) ?>
 </div>
 
     <div class="body-content">
