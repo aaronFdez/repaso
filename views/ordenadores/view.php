@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <h3><?= Html::encode("Dispositivos") ?></h3>
     <?= GridView::widget([
         'dataProvider' => new ActiveDataProvider([
             'query' => $model->getDispositivos(),
@@ -49,4 +50,15 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <h3><?= Html::encode("Historial") ?></h3>
+    <?= GridView::widget([
+        'dataProvider' => new ActiveDataProvider([
+            'query' => $model->getRegistros(),
+        ]),
+        'columns' => [
+            'origen.den_aula:text:Origen',
+            'destino.den_aula:text:Destino',
+            'created_at:datetime',
+        ],
+    ]) ?>
 </div>

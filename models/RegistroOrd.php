@@ -36,9 +36,9 @@ class RegistroOrd extends \yii\db\ActiveRecord
             [['ordenador_id', 'origen_id', 'destino_id'], 'required'],
             [['ordenador_id', 'origen_id', 'destino_id'], 'integer'],
             [['created_at'], 'safe'],
-            [['origen_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aulas::className(), 'targetAttribute' => ['origen_id' => 'id']],
-            [['destino_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aulas::className(), 'targetAttribute' => ['destino_id' => 'id']],
-            [['ordenador_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ordenadores::className(), 'targetAttribute' => ['ordenador_id' => 'id']],
+            [['origen_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aula::className(), 'targetAttribute' => ['origen_id' => 'id']],
+            [['destino_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aula::className(), 'targetAttribute' => ['destino_id' => 'id']],
+            [['ordenador_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ordenador::className(), 'targetAttribute' => ['ordenador_id' => 'id']],
         ];
     }
 
@@ -63,20 +63,18 @@ class RegistroOrd extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Aula::className(), ['id' => 'origen_id'])->inverseOf('esOrigenOrd');
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+     /**
+      * @return \yii\db\ActiveQuery
+      */
     public function getDestino()
     {
-        return $this->hasOne(Aula::className(), ['id' => 'destino_id'])->inverseOf('esDestinoOrd');
+     return $this->hasOne(Aula::className(), ['id' => 'destino_id'])->inverseOf('esDestinoOrd');
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+     /**
+      * @return \yii\db\ActiveQuery
+      */
     public function getOrdenador()
     {
-        return $this->hasOne(Ordenador::className(), ['id' => 'ordenador_id'])->inverseOf('registros');
+     return $this->hasOne(Ordenador::className(), ['id' => 'ordenador_id'])->inverseOf('registros');
     }
 }
