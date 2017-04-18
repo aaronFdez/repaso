@@ -12,6 +12,7 @@ use app\models\Ordenador;
  */
 class OrdenadorSearch extends Ordenador
 {
+    public $numero;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class OrdenadorSearch extends Ordenador
     {
         return [
             [['id'], 'integer'],
-            [['aula_id'], 'safe'],
+            [['aula_id', 'numero'], 'safe'],
             [['marca_ord', 'modelo_ord'], 'safe'],
         ];
     }
@@ -42,7 +43,7 @@ class OrdenadorSearch extends Ordenador
      */
     public function search($params)
     {
-        $query = Ordenador::find()->joinWith('aula');
+        $query = Ordenador::find()->joinWith('aula', 'dispositivos');
 
         // add conditions that should always apply here
 
@@ -58,6 +59,19 @@ class OrdenadorSearch extends Ordenador
             return $dataProvider;
         }
 
+        $query->select('ordenadores.*, count(ordenadores.id) as numero');
+
+        $dataProvider->sort->attributes['aula_id'] = [
+             'asc' => ['den_aula' => SORT_ASC],
+             'desc' => ['den_aula' => SORT_DESC],
+         ];
+
+         $dataProvider->sort->attributes['numero'] = [
+             'asc' => ['numero' => SORT_ASC],
+             'desc' => ['numero' => SORT_DESC],
+         ];
+
+        $query->groupBy('ordenadores.id');
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -66,6 +80,10 @@ class OrdenadorSearch extends Ordenador
         $query->andFilterWhere(['like', 'marca_ord', $this->marca_ord])
             ->andFilterWhere(['like', 'modelo_ord', $this->modelo_ord])
             ->andFilterWhere(['like', 'den_aula', $this->aula_id]);
+
+        $query->andFilterHaving([
+                'count(dispositivos.id)' => $this->numero,
+            ]);
 
         return $dataProvider;
     }

@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <h3><?= Html::encode("Dispositivos") ?></h3>
+    <h3><?= Html::encode("Dispositivos del ordenador") ?></h3>
     <?= GridView::widget([
         'dataProvider' => new ActiveDataProvider([
             'query' => $model->getDispositivos(),
@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <h3><?= Html::encode("Historial") ?></h3>
+    <h3><?= Html::encode("Historial del ordenador") ?></h3>
     <?= GridView::widget([
         'dataProvider' => new ActiveDataProvider([
             'query' => $model->getRegistros(),
