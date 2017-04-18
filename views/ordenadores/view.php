@@ -46,7 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'marca_disp',
             'modelo_disp',
-            [ 'class' => ActionColumn::className() ],
+            [
+                'class' => ActionColumn::className(),
+                'controller' => 'dispositivos',
+             ],
         ],
     ]) ?>
 
