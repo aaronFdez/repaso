@@ -2,11 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\data\ActiveDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Dispositivo */
 
-$this->title = $model->marca_disp . ' ' . $model->modelo_disp;
+$this->title = $model->nombre;
 $this->params['breadcrumbs'][] = ['label' => 'Dispositivos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -30,9 +32,37 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'marca_disp',
             'modelo_disp',
-            'ordenador_id',
-            'aula.den_aula',
+            'ubicacion',
         ],
     ]) ?>
-
+    <?= GridView::widget([
+             'dataProvider' => new ActiveDataProvider([
+                  'query' => $model->getRegistros(),
+              ]),
+              'columns' => [
+                  [
+                    'attribute' => 'origen_id',
+                    'value' => function ($model, $widget) {
+                        if ($model->origen_ord_id !== null) {
+                            return $model->origenOrd->nombre;
+                        } else {
+                            return $model->origen_aula_id;
+                        }
+                    },
+                        'label' => 'Origen'
+                    ],
+                 [
+                    'attribute' => 'destino_id',
+                    'value' => function ($model, $widget) {
+                        if ($model->destino_ord_id !== null) {
+                            return $model->destino_ord_id;
+                        } else {
+                            return $model->destino_aula_id;
+                        }
+                    },
+                    'label' => 'Destino'
+                 ],
+                    'created_at:datetime'
+                ],
+      ]) ?>
 </div>

@@ -22,12 +22,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'marca_disp',
-            'modelo_disp',
-            'ordenador_id',
-            'aula.den_aula',
-
-            ['class' => 'yii\grid\ActionColumn'],
+           'marca_disp',
+           'modelo_disp',
+           [
+               'attribute' => 'ubicacion',
+               'value' => function ($model, $widget) {
+                   if ($model->ordenador_id !== null) {
+                       return Html::a(
+                           Html::encode($model->ubicacion),
+                           ['ordenadores/view', 'id' => $model->ordenador_id]
+                       );
+                   } else {
+                       return Html::a(
+                           Html::encode($model->ubicacion),
+                           ['aulas/view', 'id' => $model->aula_id]
+                       );
+                   }
+               },
+               'format' => 'html',
+           ],
+           ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
