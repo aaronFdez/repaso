@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'modelo_ord')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'foto')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'aula_id')->dropDownList($aulas) ?>
 
     <div class="form-group">

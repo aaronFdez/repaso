@@ -17,6 +17,7 @@ create table ordenadores
     id         bigserial     constraint pk_ordenadores primary key,
     marca_ord  varchar(255),
     modelo_ord varchar(255),
+    foto       text,
     aula_id    bigint        not null constraint fk_ordenadores_aulas
                              references aulas (id)
                              on delete no action on update cascade

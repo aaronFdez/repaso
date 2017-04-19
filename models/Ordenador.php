@@ -35,6 +35,7 @@ class Ordenador extends \yii\db\ActiveRecord
     {
         return [
             [['aula_id'], 'required'],
+            [['foto'], 'string'],
             [['aula_id'], 'integer'],
             [['marca_ord', 'modelo_ord'], 'string', 'max' => 255],
             [['aula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aula::className(), 'targetAttribute' => ['aula_id' => 'id']],
@@ -51,7 +52,13 @@ class Ordenador extends \yii\db\ActiveRecord
             'marca_ord' => 'Marca',
             'modelo_ord' => 'Modelo',
             'aula_id' => 'Aula',
+            'foto' => 'Imagen',
         ];
+    }
+
+    public function getImagen()
+    {
+        return $this->foto;
     }
 
     public function getNombre()
