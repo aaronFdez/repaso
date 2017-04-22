@@ -23,9 +23,9 @@ create table ordenadores
                              on delete no action on update cascade
 );
 
-insert into ordenadores (marca_ord, modelo_ord, aula_id)
-    values ('Sony', 'Vaio', 1),
-           ('IBM', '8088', 2);
+insert into ordenadores (marca_ord, modelo_ord, foto, aula_id)
+    values ('Sony', 'Vaio','https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Sony_VGN-C90S.jpg/800px-Sony_VGN-C90S.jpg', 1),
+           ('IBM', '8088','http://vignette1.wikia.nocookie.net/videojuego/images/2/26/IBM_PC_modelo_8088.jpg/revision/latest?cb=20140503035503', 2);
 
 drop table if exists dispositivos cascade;
 
@@ -34,6 +34,7 @@ create table dispositivos
     id           bigserial     constraint pk_dispositivos primary key,
     marca_disp   varchar(255),
     modelo_disp  varchar(255),
+    foto         text,
     ordenador_id bigint        constraint fk_dispositivos_ordenadores
                                references ordenadores (id)
                                on delete no action on update cascade,
@@ -44,11 +45,11 @@ create table dispositivos
                                    or (ordenador_id is not null and aula_id is null))
 );
 
-insert into dispositivos (marca_disp, modelo_disp, ordenador_id, aula_id)
-    values ('Seagate', 'Barracuda 1TB', 1, null),
-           ('Logitech', 'K120', 2, null),
-           ('Ratón', 'Superguay', 2, null),
-           ('nVIDIA', 'GTX480', null, 2);
+insert into dispositivos (marca_disp, modelo_disp, foto, ordenador_id, aula_id)
+    values ('Seagate', 'Barracuda 1TB', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Airy_by_CnMemory%2C_external_hard_disk-3187.jpg/330px-Airy_by_CnMemory%2C_external_hard_disk-3187.jpg', 1, null),
+           ('Logitech', 'K120', 'https://images-na.ssl-images-amazon.com/images/G/01/electronics/detail-page/B003ELVLKU_K120_TOP_US.jpg', 2, null),
+           ('Ratón', 'Superguay', 'http://www.redusers.com/noticias/wp-content/uploads/2010/06/rat-cyborg-de-la-hostiaaaaa.jpg', 2, null),
+           ('nVIDIA', 'GTX480', 'http://www.legitreviews.com/images/reviews/1258/gtx480_slide.jpg', null, 2);
 
 drop table if exists registro_ord cascade;
 
