@@ -27,14 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'marca_disp',
-            'modelo_disp',
-            'ubicacion',
-        ],
-    ]) ?>
+    <div class="media">
+           <div class="media-body">
+                <?= DetailView::widget([
+                    'model' => $model,
+                    'attributes' => [
+                        'marca_disp',
+                        'modelo_disp',
+                        'ubicacion',
+                    ],
+                ]) ?>
+            </div>
+            <div class="media-right">
+
+            <?= Html::img($model->foto, ['title' => $model->nombre , 'width' => '130px', 'height'=>'110px']); ?>
+        </div>
+    </div>
     <?= GridView::widget([
              'dataProvider' => new ActiveDataProvider([
                   'query' => $model->getRegistros(),
