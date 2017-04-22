@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\data\ActiveDataProvider;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Aula */
@@ -34,6 +36,31 @@ $this->params['breadcrumbs'][] = $this->title;
             //     'value'=>$model->foto,
             //     'format' => ['image',['width'=>'100','height'=>'100']],
             // ],
+        ],
+    ]) ?>
+    <h2><?= Html::encode("Ordenadores del aula $model->den_aula") ?></h2>
+    <?= GridView::widget([
+        'dataProvider' => new ActiveDataProvider([
+            'query' => $model->getOrdenadores(),
+        ]),
+        'columns' => [
+            [
+                'attribute' => 'nombre',
+                'value' => function ($model, $widget) {
+                    return Html::a(
+                        Html::encode($model->nombre),
+                        ['ordenadores/view', 'id' => $model->id]
+                    );
+                },
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'numero',
+                'value' => function ($model, $widget) {
+                    return count($model->dispositivos);
+                },
+                'label' => 'Número de dispositivos',
+            ],
         ],
     ]) ?>
 

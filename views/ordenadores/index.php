@@ -22,8 +22,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'marca_ord',
-            'modelo_ord',
+            [
+                'attribute' => 'marca_ord',
+                'value' => function ($model, $widget) {
+                    return Html::a(
+                        Html::encode($model->marca_ord),
+                        ['ordenadores/view', 'id' => $model->id]
+                    );
+                },
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'modelo_ord',
+                'value' => function ($model, $widget) {
+                    return Html::a(
+                        Html::encode($model->modelo_ord),
+                        ['ordenadores/view', 'id' => $model->id]
+                    );
+                },
+                'format' => 'html',
+            ],
             [
                 'attribute' => 'aula_id',
                 'value' => function ($model, $widget) {

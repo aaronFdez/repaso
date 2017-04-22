@@ -51,12 +51,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'query' => $model->getDispositivos(),
         ]),
         'columns' => [
-            'marca_disp',
-            'modelo_disp',
             [
-                'class' => ActionColumn::className(),
-                'controller' => 'dispositivos',
-             ],
+                'attribute' => 'Dispositivos',
+                'value' => function ($model, $widget) {
+                    return Html::a(
+                        Html::encode($model->marca_disp . ' ' . $model->modelo_disp ),
+                        ['dispositivos/view', 'id' => $model->id]
+                    );
+                },
+                'format' => 'html',
+            ],
         ],
     ]) ?>
 
