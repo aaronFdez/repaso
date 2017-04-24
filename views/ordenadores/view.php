@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2><?= Html::encode("Dispositivos del ordenador") ?></h2>
     <?= GridView::widget([
         'dataProvider' => new ActiveDataProvider([
-            'query' => $model->getDispositivos(),
+        'query' => $model->getDispositivos(),
         ]),
         'columns' => [
             [
@@ -70,8 +70,26 @@ $this->params['breadcrumbs'][] = $this->title;
             'query' => $model->getRegistros(),
         ]),
         'columns' => [
-            'origen.den_aula:text:Origen',
-            'destino.den_aula:text:Destino',
+            [
+                'attribute' => 'Origen',
+                'value' => function ($model, $widget) {
+                    return Html::a(
+                        Html::encode($model->origen->den_aula),
+                        ['aulas/view', 'id' => $model->id]
+                    );
+                },
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'Destino',
+                'value' => function ($model, $widget) {
+                    return Html::a(
+                        Html::encode($model->destino->den_aula),
+                        ['aulas/view', 'id' => $model->id]
+                    );
+                },
+                'format' => 'html',
+            ],
             'created_at:datetime',
         ],
     ]) ?>

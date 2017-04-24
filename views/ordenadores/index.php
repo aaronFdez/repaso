@@ -59,7 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'label' => 'Número de dispositivos',
             ],
-            ['class' => 'yii\grid\ActionColumn'],
 
         ],
     ]); ?>

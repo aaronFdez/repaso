@@ -63,6 +63,10 @@ class DispositivoSearch extends Dispositivo
             'asc' => ['ubicacion' => SORT_ASC],
             'desc' => ['ubicacion' => SORT_DESC],
         ];
+        $dataProvider->sort->attributes['marca_disp'] = [
+            'asc' => ['marca_disp' => SORT_ASC],
+            'desc' => ['marca_disp' => SORT_DESC],
+        ];
         $query->from('v_dispositivos d')
             ->andFilterWhere(['like', 'marca_disp', $this->marca_disp])
             ->andFilterWhere(['like', 'modelo_disp', $this->modelo_disp])
