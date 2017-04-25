@@ -1,8 +1,6 @@
 <?php
 
-use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
-use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
