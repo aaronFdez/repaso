@@ -6,6 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DispositivoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+$opciones = ['width'=>'1140px', 'title' => 'Pasillo de las aulas', 'margin' => 'auto' , 'height'=>'auto'];
 
 $this->title = 'Dispositivos';
 $this->params['breadcrumbs'][] = $this->title;
@@ -62,4 +63,5 @@ $this->params['breadcrumbs'][] = $this->title;
            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <?= Html::img("http://4.bp.blogspot.com/-oKmCGYBtWQs/UZHNcwTqUYI/AAAAAAAAANE/QWs7nwjvz2M/s1600/abyss_ojos_10241.jpg", $opciones) ?>
 </div>

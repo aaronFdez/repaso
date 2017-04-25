@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\OrdenadorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+$opciones = ['width'=>'1140px', 'title' => 'Pasillo de las aulas', 'margin' => 'auto' , 'height'=>'auto'];
 $this->title = 'Ordenadores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -62,4 +62,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ],
     ]); ?>
+
+    <?= Html::img("http://images.teinteresa.es/educa/Ordenadores-aulas_TINIMA20130709_1008_18.jpg", $opciones) ?>
 </div>

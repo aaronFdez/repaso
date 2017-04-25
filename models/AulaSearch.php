@@ -62,7 +62,7 @@ class AulaSearch extends Aula
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'den_aula', $this->den_aula]);
+        $query->andFilterWhere(['ilike', 'den_aula', $this->den_aula]);
 
         return $dataProvider;
     }

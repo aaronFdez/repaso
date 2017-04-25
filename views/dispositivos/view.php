@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="media-right">
 
-            <?= Html::img($model->foto, ['title' => $model->nombre , 'width' => '130px', 'height'=>'110px']); ?>
+            <?= Html::img($model->foto, ['title' => $model->nombre , 'width' => '230px', 'height'=>'110px']); ?>
         </div>
     </div>
     <?= GridView::widget([

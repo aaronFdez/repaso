@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $nombre = $model->marca_ord . ' ' . $model->modelo_ord;
 $this->title = 'Modificar Ordenador: ' . $nombre;
 $this->params['breadcrumbs'][] = ['label' => 'Ordenadores', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->nombre, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Modificar';
 ?>
 <div class="ordenador-update">
