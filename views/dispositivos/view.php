@@ -50,22 +50,22 @@ $this->params['breadcrumbs'][] = $this->title;
               'columns' => [
                   [
                     'attribute' => 'origen_id',
-                    'value' => function ($model, $widget) {
-                        if ($model->origen_ord_id !== null) {
-                            return $model->origenOrd->nombre;
+                    'value' => function ($reg, $widget) {
+                        if ($reg->origen_ord_id !== null) {
+                            return $reg->origenOrd->nombre;
                         } else {
-                            return $model->origen_aula_id;
+                            return $reg->origenAula->den_aula;
                         }
                     },
                         'label' => 'Origen'
                     ],
                  [
                     'attribute' => 'destino_id',
-                    'value' => function ($model, $widget) {
-                        if ($model->destino_ord_id !== null) {
-                            return $model->destino_ord_id;
+                    'value' => function ($reg, $widget) {
+                        if ($reg->destino_ord_id !== null) {
+                            return $reg->destinoOrd->nombre;
                         } else {
-                            return $model->destino_aula_id;
+                            return $reg->destinoAula->den_aula;
                         }
                     },
                     'label' => 'Destino'

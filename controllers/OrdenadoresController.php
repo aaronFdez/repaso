@@ -58,6 +58,16 @@ class OrdenadoresController extends Controller
         ]);
     }
 
+    public function actionBorrarHistorial()
+    {
+        $id = Yii::$app->request->post('id');
+
+        if ($id === null || Ordenador::findOne($id) === null) {
+            throw new NotFoundHttpException('Ordenador no encontrado');
+        }
+
+        RegistroOrd::deleteAll(['ordenador_id' => $id]);
+    }
     /**
      * Creates a new Ordenador model.
      * If creation is successful, the browser will be redirected to the 'view' page.
