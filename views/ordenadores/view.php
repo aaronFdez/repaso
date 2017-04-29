@@ -1,9 +1,13 @@
 <?php
 
+use yii\data\Sort;
+use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
+use yii\grid\ActionColumn;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\widgets\Pjax;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -63,16 +67,15 @@ $this->registerJs($js);
         </div>
     </div>
     <h2><?= Html::encode("Dispositivos del ordenador") ?></h2>
+    <?php Pjax::begin() ?>
     <?= GridView::widget([
-        'dataProvider' => new ActiveDataProvider([
-        'query' => $model->getDispositivos(),
-        ]),
+        'dataProvider' => $dataProviderDisp,
         'columns' => [
             [
-                'attribute' => 'Dispositivos',
+                'attribute' => 'nombre',
                 'value' => function ($model, $widget) {
                     return Html::a(
-                        Html::encode($model->marca_disp . ' ' . $model->modelo_disp ),
+                        Html::encode($model->nombre),
                         ['dispositivos/view', 'id' => $model->id]
                     );
                 },
@@ -80,44 +83,45 @@ $this->registerJs($js);
             ],
         ],
     ]) ?>
+    <?php Pjax::end() ?>
 
     <h2><?= Html::encode("Historial del ordenador") ?></h2>
+    <?php Pjax::begin() ?>
     <?= GridView::widget([
         'options' => [
             'id' => 'historial',
             'class' => 'grid-view',
         ],
-        'dataProvider' => new ActiveDataProvider([
-            'query' => $model->getRegistros(),
-        ]),
+        'dataProvider' => $dataProviderHist,
         'columns' => [
             [
-                'attribute' => 'Origen',
+                'attribute' => 'origen',
                 'value' => function ($model, $widget) {
                     return Html::a(
                         Html::encode($model->origen->den_aula),
                         ['aulas/view', 'id' => $model->id]
                     );
                 },
+                'label' => 'Origen',
                 'format' => 'html',
             ],
             [
-                'attribute' => 'Destino',
+                'attribute' => 'destino',
                 'value' => function ($model, $widget) {
                     return Html::a(
                         Html::encode($model->destino->den_aula),
                         ['aulas/view', 'id' => $model->id]
                     );
                 },
+                'label' => 'Destino',
                 'format' => 'html',
             ],
             'created_at:datetime',
         ],
     ]) ?>
-
+<?php Pjax::end() ?>
     <?= Html::button(
         'Borrar historial', [
                 'class' => 'btn btn-danger',
-                'id' => 'borrarHistorial',
-        ]) ?>
+                'id' => 'borrarHistorial',]) ?>
 </div>
