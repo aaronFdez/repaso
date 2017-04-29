@@ -56,6 +56,15 @@ class Ordenador extends \yii\db\ActiveRecord
         ];
     }
 
+    public function findDropDownList()
+    {
+        return self::find()
+            ->select("(marca_ord || ' ' || modelo_ord) as nombre, id")
+            ->indexBy('id')
+            ->orderBy('nombre')
+            ->column();
+    }
+
     public function getImagen()
     {
         return $this->foto;

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
@@ -11,6 +12,22 @@ use yii\data\ActiveDataProvider;
 $this->title = $model->nombre;
 $this->params['breadcrumbs'][] = ['label' => 'Dispositivos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$url = Url::to(['borrar-historial']);
+$id = $model->id;
+
+$js = <<<EOT
+    $('#borrarHistorial').click(function() {
+        $.ajax({
+            url: "$url",
+            type: 'POST',
+            data: { "id": "$id"},
+            success: function (data, status, xhr) {
+                $('#historial').empty();
+            }
+        });
+    });
+EOT;
+$this->registerJs($js);
 ?>
 <div class="dispositivo-view">
 
@@ -43,7 +60,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::img($model->foto, ['title' => $model->nombre , 'width' => '230px', 'height'=>'110px']); ?>
         </div>
     </div>
+    <h2>Historial de movimientos</h2>
     <?= GridView::widget([
+            'options' => [
+                'id' => 'historial',
+                'class' => 'grid-view',
+            ],
              'dataProvider' => new ActiveDataProvider([
                   'query' => $model->getRegistros(),
               ]),
@@ -73,4 +95,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'created_at:datetime'
                 ],
       ]) ?>
+      <?= Html::button(
+          'Borrar historial', [
+              'class' => 'btn btn-danger',
+              'id' => 'borrarHistorial',
+          ]) ?>
 </div>
