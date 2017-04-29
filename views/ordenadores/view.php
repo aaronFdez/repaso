@@ -99,7 +99,7 @@ $this->registerJs($js);
                 'value' => function ($model, $widget) {
                     return Html::a(
                         Html::encode($model->origen->den_aula),
-                        ['aulas/view', 'id' => $model->id]
+                        ['aulas/view', 'id' => $model->origen_id]
                     );
                 },
                 'label' => 'Origen',
@@ -110,7 +110,7 @@ $this->registerJs($js);
                 'value' => function ($model, $widget) {
                     return Html::a(
                         Html::encode($model->destino->den_aula),
-                        ['aulas/view', 'id' => $model->id]
+                        ['aulas/view', 'id' => $model->destino_id]
                     );
                 },
                 'label' => 'Destino',

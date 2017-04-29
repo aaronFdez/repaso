@@ -50,11 +50,12 @@ class Aula extends \yii\db\ActiveRecord
 
     public static function findDropDownList()
     {
-        return self::find()
+        $lista = self::find()
             ->select('den_aula, id')
             ->indexBy('id')
             ->orderBy('den_aula')
             ->column();
+        return ['' => ''] + $lista;
     }
 
     /**

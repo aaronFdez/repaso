@@ -60,11 +60,12 @@ class Ordenador extends \yii\db\ActiveRecord
 
     public function findDropDownList()
     {
-        return self::find()
+        $lista = self::find()
             ->select("(marca_ord || ' ' || modelo_ord) as nombre, id")
             ->indexBy('id')
             ->orderBy('nombre')
             ->column();
+        return ['' => ''] + $lista;
     }
 
     public function verDispositivos()
@@ -150,7 +151,7 @@ class Ordenador extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function geEsOrigenDisp()
+    public function getEsOrigenDisp()
     {
         return $this->hasMany(RegistroDisp::className(), ['origen_ord_id' => 'id'])->inverseOf('origenOrd');
     }

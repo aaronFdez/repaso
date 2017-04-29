@@ -74,22 +74,36 @@ $this->registerJs($js);
                     'attribute' => 'origen_id',
                     'value' => function ($reg, $widget) {
                         if ($reg->origen_ord_id !== null) {
-                            return $reg->origenOrd->nombre;
+                            return Html::a(
+                                Html::encode($reg->origenOrd->nombre),
+                                ['ordenadores/view', 'id' => $reg->origen_ord_id]
+                            );
                         } else {
-                            return $reg->origenAula->den_aula;
+                            return Html::a(
+                                Html::encode($reg->origenAula->den_aula),
+                                ['aulas/view', 'id' => $reg->origen_aula_id]
+                            );
                         }
                     },
+                        'format' => 'html',
                         'label' => 'Origen'
                     ],
-                 [
+                    [
                     'attribute' => 'destino_id',
                     'value' => function ($reg, $widget) {
                         if ($reg->destino_ord_id !== null) {
-                            return $reg->destinoOrd->nombre;
+                            return Html::a(
+                                Html::encode($reg->destinoOrd->nombre),
+                                ['ordenadores/view', 'id' => $reg->destino_ord_id]
+                            );
                         } else {
-                            return $reg->destinoAula->den_aula;
+                            return Html::a(
+                                Html::encode($reg->destinoAula->den_aula),
+                                ['aulas/view', 'id' => $reg->destino_aula_id]
+                            );
                         }
                     },
+                    'format' => 'html',
                     'label' => 'Destino'
                  ],
                     'created_at:datetime'
