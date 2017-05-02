@@ -65,7 +65,7 @@ class Ordenador extends \yii\db\ActiveRecord
             ->indexBy('id')
             ->orderBy('nombre')
             ->column();
-        return ['' => ''] + $lista;
+        return  $lista;
     }
 
     public function verDispositivos()

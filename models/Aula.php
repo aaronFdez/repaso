@@ -55,7 +55,7 @@ class Aula extends \yii\db\ActiveRecord
             ->indexBy('id')
             ->orderBy('den_aula')
             ->column();
-        return ['' => ''] + $lista;
+        return  $lista;
     }
 
     /**
