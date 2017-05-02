@@ -40,12 +40,12 @@ AppAsset::register($this);
             ['label' => 'Ordenadores', 'url' => ['/ordenadores/index']],
             ['label' => 'Dispositivos', 'url' => ['/dispositivos/index']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => 'Registro', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->nombre . ')',
+                    'Deslogueo (' . Yii::$app->user->identity->nombre . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

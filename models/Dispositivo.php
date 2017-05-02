@@ -1,6 +1,9 @@
 <?php
+
 namespace app\models;
+
 /**
+ *
  * This is the model class for table "dispositivos".
  *
  * @property integer $id
@@ -28,29 +31,37 @@ class Dispositivo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ordenador_id', 'aula_id'], 'integer'],
-            [['ordenador_id', 'aula_id'], 'filter', 'filter' => function ($value) {
-                if ($value === '' || $value === null) {
-                    return null;
-                } else {
-                    return intval($value);
-                }
-            }],
+            [['ordenador_id', 'aula_id'], 'default'],// los valores vacios se convierten a null
+            [['ordenador_id', 'aula_id'], 'integer'],//los valores son enteros
+            [
+                ['ordenador_id', 'aula_id'],
+                'filter',
+                'filter' => 'intval',
+                'skipOnEmpty' => true
+            ],//convierte la cadena en enteros y skipOnEmpty deja los nulos como nulos en vez de convertirlos a 0
             [['marca_disp', 'modelo_disp'], 'string', 'max' => 255],
-            [['aula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aula::className(), 'targetAttribute' => ['aula_id' => 'id']],
-            [['ordenador_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ordenador::className(), 'targetAttribute' => ['ordenador_id' => 'id']],
+            [['marca_disp', 'modelo_disp', 'foto'], 'trim'],//trimear los campos con cadenas
+            [
+                ['aula_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Aula::className(),
+                'targetAttribute' => ['aula_id' => 'id']
+            ],
+            [
+                ['ordenador_id'],
+                'exist',
+                'skipOnError' => true,//si hubo un error de validacion no sigue con el flujo normal
+                'targetClass' => Ordenador::className(),
+                'targetAttribute' => [
+                    'ordenador_id' => 'id']
+            ],
             [
                 [
                     'ordenador_id',
                     'aula_id'
                 ],
-                function ($attribute, $params, $validator) {
-                    if ($this->ordenador_id == null && $this->aula_id == null) {
-                        $this->addError($attribute, 'El dispositivo debe estar en alguna parte.');
-                    } elseif ($this->ordenador_id != null && $this->aula_id != null) {
-                        $this->addError($attribute, 'El dispositivo no puede estar en dos sitios a la vez.');
-                    }
-                },
+                'ubicacionCorrecta',
                 'skipOnEmpty' => false,
             ],
         ];
@@ -69,10 +80,20 @@ class Dispositivo extends \yii\db\ActiveRecord
             'ubicacion' => 'Ubicación',
         ];
     }
+
+    public function ubicacionCorrecta($attribute, $params, $validator) {
+        if ($this->ordenador_id == null && $this->aula_id == null) {
+            $this->addError($attribute, 'El dispositivo debe estar en alguna parte.');
+        } elseif ($this->ordenador_id != null && $this->aula_id != null) {
+            $this->addError($attribute, 'El dispositivo no puede estar en dos sitios a la vez.');
+        }
+    }
+
     public function getNombre()
     {
         return $this->marca_disp . ' ' . $this->modelo_disp;
     }
+
     public function getUbicacion()
     {
         if ($this->ordenador === null) {
