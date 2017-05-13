@@ -129,7 +129,6 @@ class Dispositivo extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
-        var_dump($changedAttributes);
         parent::afterSave($insert, $changedAttributes);
         if ($insert) {
             return;
