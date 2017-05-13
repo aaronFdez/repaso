@@ -28,44 +28,40 @@ class Dispositivo extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
-        return [
-            [['ordenador_id', 'aula_id'], 'default'],// los valores vacios se convierten a null
-            [['ordenador_id', 'aula_id'], 'integer'],//los valores son enteros
-            [
-                ['ordenador_id', 'aula_id'],
-                'filter',
-                'filter' => 'intval',
-                'skipOnEmpty' => true
-            ],//convierte la cadena en enteros y skipOnEmpty deja los nulos como nulos en vez de convertirlos a 0
-            [['marca_disp', 'modelo_disp'], 'string', 'max' => 255],
-            [['marca_disp', 'modelo_disp', 'foto'], 'trim'],//trimear los campos con cadenas
-            [
-                ['aula_id'],
-                'exist',
-                'skipOnError' => true,
-                'targetClass' => Aula::className(),
-                'targetAttribute' => ['aula_id' => 'id']
-            ],
-            [
-                ['ordenador_id'],
-                'exist',
-                'skipOnError' => true,//si hubo un error de validacion no sigue con el flujo normal
-                'targetClass' => Ordenador::className(),
-                'targetAttribute' => [
-                    'ordenador_id' => 'id']
-            ],
-            [
-                [
-                    'ordenador_id',
-                    'aula_id'
-                ],
-                'ubicacionCorrecta',
-                'skipOnEmpty' => false,
-            ],
-        ];
-    }
+     public function rules()
+         {
+             return [
+                 [['ordenador_id', 'aula_id'], 'default'],
+                 [['ordenador_id', 'aula_id'], 'integer'],
+                 [
+                     ['ordenador_id', 'aula_id'],
+                     'filter',
+                     'filter' => 'intval',
+                     'skipOnEmpty' => true,
+                 ],
+                 [['marca_disp', 'modelo_disp'], 'string', 'max' => 255],
+                 [['marca_disp', 'modelo_disp'], 'trim'],
+                 [
+                     ['aula_id'],
+                     'exist',
+                     'skipOnError' => true,
+                     'targetClass' => Aula::className(),
+                     'targetAttribute' => ['aula_id' => 'id']
+                 ],
+                 [
+                     ['ordenador_id'],
+                     'exist',
+                     'skipOnError' => true,
+                     'targetClass' => Ordenador::className(),
+                     'targetAttribute' => ['ordenador_id' => 'id']
+                 ],
+                 [
+                     ['ordenador_id', 'aula_id'],
+                     'ubicacionCorrecta',
+                     'skipOnEmpty' => false,
+                 ],
+             ];
+         }
     /**
      * @inheritdoc
      */
@@ -81,11 +77,18 @@ class Dispositivo extends \yii\db\ActiveRecord
         ];
     }
 
-    public function ubicacionCorrecta($attribute, $params, $validator) {
+    public function ubicacionCorrecta($attribute, $params, $validator)
+    {
         if ($this->ordenador_id == null && $this->aula_id == null) {
-            $this->addError($attribute, 'El dispositivo debe estar en alguna parte.');
+            $this->addError(
+                $attribute,
+                'El dispositivo debe estar en alguna parte.'
+            );
         } elseif ($this->ordenador_id != null && $this->aula_id != null) {
-            $this->addError($attribute, 'El dispositivo no puede estar en dos sitios a la vez.');
+            $this->addError(
+                $attribute,
+                'El dispositivo no puede estar en dos sitios a la vez.'
+            );
         }
     }
 

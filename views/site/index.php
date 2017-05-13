@@ -13,7 +13,7 @@ $this->title = 'My Yii Application';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Instituto Doñana</h1>
+        <h1>Instituto Selene</h1>
         <?= Html::img("http://images.schoolmars.es/school-470x330-web/ies-donana.jpg", ['width'=>'700px', 'height'=>'300px']) ?>
 </div>
 

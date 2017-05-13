@@ -107,4 +107,4 @@ create table usuarios (
 );
 
 insert into usuarios (nombre, password)
-    values ('admin', md5('admin'));
+    values ('admin', md5('admin')), ('selene', md5('selene'));
