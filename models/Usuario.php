@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\components\UsuariosHelper;
 /**
  * This is the model class for table "usuarios".
  *
@@ -14,6 +15,11 @@ use Yii;
  */
 class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    const SCENARIO_DEFAULT = 'default';
+    const SCENARIO_FORM = 'form';
+
+    public $passwordForm;
+    public $passwordConfirmForm;
     /**
      * @inheritdoc
      */
@@ -27,14 +33,36 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['nombre', 'password'], 'required'],
+            [['nombre', 'tipo'], 'required'],
+            [['password'], 'required', 'on' => [self::SCENARIO_DEFAULT]],
             [['nombre'], 'string', 'max' => 255],
             [['password'], 'string', 'max' => 60],
-            [['tipo'], 'string', 'max' => 1],
-            [['tipo'], 'in', 'range' => ['U', 'A']],
             [['nombre'], 'unique'],
+            [
+                ['passwordForm', 'passwordConfirmForm'],
+                'required',
+                'on' => [self::SCENARIO_FORM],
+            ],
+            [
+                ['passwordForm'],
+                'compare',
+                'compareAttribute' => 'passwordConfirmForm',
+                'on' => [self::SCENARIO_FORM],
+            ],
         ];
+        if (UsuariosHelper::isAdmin()) {
+            $rules = [['tipo'], 'string', 'max' => 1];
+            $rules = [['tipo'], 'in', 'range' => ['U', 'A']];
+        }
     }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        // if (!UsuariosHelper::isAdmin())
+    }
+
+
     /**
      * @inheritdoc
      */
@@ -45,7 +73,14 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'nombre' => 'Nombre',
             'password' => 'Password',
             'tipo' => 'Tipo',
+            'passwordForm' => 'Contraseña',
+            'passwordConfirmForm' => 'Confirmar contraseña',
         ];
+    }
+
+    public function getIsAdmin()
+    {
+        return $this->tipo === 'A';
     }
     /**
      * @return \yii\db\ActiveQuery
@@ -102,5 +137,17 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+        if ($this->scenario === self::SCENARIO_FORM) {
+            $this->password =
+                Yii::$app->security->generatePasswordHash($this->passwordForm);
+        }
+        return true;
     }
 }

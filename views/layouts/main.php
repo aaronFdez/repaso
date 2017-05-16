@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use app\components\UsuariosHelper;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -39,13 +40,16 @@ AppAsset::register($this);
             ['label' => 'Aulas', 'url' => ['/aulas/index']],
             ['label' => 'Ordenadores', 'url' => ['/ordenadores/index']],
             ['label' => 'Dispositivos', 'url' => ['/dispositivos/index']],
-            Yii::$app->user->isGuest ? (
+            UsuariosHelper::isAdmin() ? (
+               ['label' => 'Usuarios', 'url' => ['usuarios/index']]
+           ) : '',
+           UsuariosHelper::isGuest() ? (
                 ['label' => 'Registro', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Deslogueo (' . Yii::$app->user->identity->nombre . ')',
+                    'Deslogueo (' . UsuariosHelper::get('nombre') . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
