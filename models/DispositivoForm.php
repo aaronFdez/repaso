@@ -7,8 +7,6 @@ use yii\base\Model;
 class DispositivoForm extends Dispositivo
 {
     public $ubicacion_id;
-    public $nuevo_aula_id;
-    public $nuevo_ordenador_id;
 
     public function rules()
    {
@@ -33,20 +31,14 @@ class DispositivoForm extends Dispositivo
                $ubicacion = (int) $ubicacion;
                switch ($procedencia) {
                    case 'a':
-                       $this->nuevo_aula_id = $ubicacion;
-                       $this->nuevo_ordenador_id = null;
+                       $this->aula_id = $ubicacion;
+                       $this->ordenador_id = null;
                        break;
                    case 'o':
-                       $this->nuevo_ordenador_id = $ubicacion;
-                       $this->nuevo_aula_id = null;
+                       $this->ordenador_id = $ubicacion;
+                       $this->aula_id = null;
                        break;
                }
-           }],
-           ['ordenador_id', 'filter', 'filter' => function ($value) {
-               return $this->nuevo_ordenador_id;
-           }],
-           ['aula_id', 'filter', 'filter' => function ($value) {
-               return $this->nuevo_aula_id;
            }],
            [
                ['ubicacion_id'],
@@ -55,7 +47,7 @@ class DispositivoForm extends Dispositivo
                'targetAttribute' => ['aula_id' => 'id'],
                'isEmpty' => function ($value) {
                    return $this->aula_id === null;
-               }
+               },
            ],
            [
                ['ubicacion_id'],
@@ -64,7 +56,7 @@ class DispositivoForm extends Dispositivo
                'targetAttribute' => ['ordenador_id' => 'id'],
                'isEmpty' => function ($value) {
                    return $this->ordenador_id === null;
-               }
+               },
            ],
        ];
        return array_merge($rules, parent::rules());
@@ -77,5 +69,12 @@ class DispositivoForm extends Dispositivo
        // bypass scenarios() implementation in the parent class
        return Model::scenarios();
    }
+
+   public function codificarUbicacion()
+    {
+        return $this->ordenador_id === null ?
+               'a' . $this->aula_id :
+               'o' . $this->ordenador_id;
+    }
 }
 ?>
