@@ -28,8 +28,10 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             [['nombre', 'password'], 'required'],
-            [['nombre'], 'string', 'max' => 20],
-            [['password'], 'string', 'max' => 32],
+            [['nombre'], 'string', 'max' => 255],
+            [['password'], 'string', 'max' => 60],
+            [['tipo'], 'string', 'max' => 1],
+            [['tipo'], 'in', 'range' => ['U', 'A']],
             [['nombre'], 'unique'],
         ];
     }
@@ -42,6 +44,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'id' => 'ID',
             'nombre' => 'Nombre',
             'password' => 'Password',
+            'tipo' => 'Tipo',
         ];
     }
     /**
@@ -67,9 +70,9 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findPorNombre($nombre)
     {
-        return self::findOne(['nombre' => $username]);
+        return self::findOne(['nombre' => $nombre]);
     }
     /**
      * @inheritdoc
@@ -98,6 +101,6 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === md5($password);
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 }

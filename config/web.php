@@ -6,8 +6,10 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'timeZone' => 'Europe/Madrid',
     'components' => [
+        'formatter' => [
+            'defaultTimeZone' => 'Europe/Madrid',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'adsl3hXR9elUElP1DbEx1trnpiLdSO_P',
@@ -17,7 +19,7 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\Usuario',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

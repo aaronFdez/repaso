@@ -18,7 +18,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title>IES DOÑANA</title>
+    <title>IES Selene</title>
     <?php $this->head() ?>
 </head>
 <body>
@@ -66,7 +66,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Instituto Doñana <?= date('d M Y') ?></p>
+        <p class="pull-left">&copy; Instituto Selene <?= date('d M Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
