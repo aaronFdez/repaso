@@ -70,6 +70,11 @@ class DispositivoForm extends Dispositivo
        return Model::scenarios();
    }
 
+   public function attributeLabels()
+    {
+        return array_merge(['ubicacion_id' => 'Ubicación'], parent::attributeLabels());
+    }
+    
    public function codificarUbicacion()
     {
         return $this->ordenador_id === null ?
