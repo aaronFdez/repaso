@@ -36,7 +36,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         $rules = [
-            [['nombre', 'tipo'], 'required'],
+            [['nombre'], 'required'],
             [['password'], 'required', 'on' => [self::SCENARIO_DEFAULT]],
             [['nombre'], 'string', 'max' => 255],
             [['password'], 'string', 'max' => 60],
@@ -54,9 +54,25 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
                 'on' => [self::SCENARIO_FORM_CREATE, self::SCENARIO_FORM_UPDATE],
             ],
         ];
-        if (UsuariosHelper::isAdmin()) {
-            $rules[] = [['tipo'], 'string', 'max' => 1];
+        if (Yii::$app->id == 'basic-console' || UsuariosHelper::isAdmin()) {
+        $rules[] = [
+            ['tipo'],
+            'required',
+            'on' => [self::SCENARIO_FORM_CREATE, self::SCENARIO_FORM_UPDATE],
+        ];
+        $rules[] = [['tipo'], 'string', 'max' => 1];
             $rules[] = [['tipo'], 'in', 'range' => ['U', 'A']];
+            $rules[] = [['tipo'], function ($attribute, $params, $validator) {
+                if ($this->getOldAttribute('tipo') == 'A' &&
+                    $this->$attribute == 'U') {
+                    if (self::find()->where(['tipo' => 'A'])->count() == 1) {
+                        $this->addError(
+                            $attribute,
+                            'Debe haber al menos un administrador.'
+                        );
+                    }
+                }
+            }];
         }
         return $rules;
     }
@@ -79,6 +95,11 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getIsAdmin()
     {
         return $this->tipo === 'A';
+    }
+
+    public function getTipoUsuario()
+    {
+            return UsuariosHelper::listaTipos($this->tipo);
     }
 
     public static function findIdentity($id)

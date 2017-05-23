@@ -15,4 +15,13 @@ class UsuariosHelper extends \yii\base\Component
     {
         return Yii::$app->user->identity->$atributo;
     }
+
+    public static function listaTipos($key = null)
+    {
+        $lista = [
+            'U' => 'Usuario',
+            'A' => 'Administrador',
+        ];
+        return $key === null ? $lista : $lista[$key];
+    }
 }
