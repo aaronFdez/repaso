@@ -4,22 +4,24 @@ namespace app\models;
 
 use Yii;
 use app\components\UsuariosHelper;
+
 /**
  * This is the model class for table "usuarios".
  *
  * @property integer $id
  * @property string $nombre
  * @property string $password
- *
- * @property Reservas[] $reservas
+ * @property string $tipo
  */
 class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     const SCENARIO_DEFAULT = 'default';
-    const SCENARIO_FORM = 'form';
+    const SCENARIO_FORM_CREATE = 'form-create';
+    const SCENARIO_FORM_UPDATE = 'form-update';
 
     public $passwordForm;
     public $passwordConfirmForm;
+
     /**
      * @inheritdoc
      */
@@ -27,12 +29,13 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return 'usuarios';
     }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        return [
+        $rules = [
             [['nombre', 'tipo'], 'required'],
             [['password'], 'required', 'on' => [self::SCENARIO_DEFAULT]],
             [['nombre'], 'string', 'max' => 255],
@@ -41,27 +44,22 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [
                 ['passwordForm', 'passwordConfirmForm'],
                 'required',
-                'on' => [self::SCENARIO_FORM],
+                'on' => [self::SCENARIO_FORM_CREATE],
             ],
+            [['passwordConfirmForm'], 'safe', 'on' => [self::SCENARIO_FORM_UPDATE]],
             [
                 ['passwordForm'],
                 'compare',
                 'compareAttribute' => 'passwordConfirmForm',
-                'on' => [self::SCENARIO_FORM],
+                'on' => [self::SCENARIO_FORM_CREATE, self::SCENARIO_FORM_UPDATE],
             ],
         ];
         if (UsuariosHelper::isAdmin()) {
-            $rules = [['tipo'], 'string', 'max' => 1];
-            $rules = [['tipo'], 'in', 'range' => ['U', 'A']];
+            $rules[] = [['tipo'], 'string', 'max' => 1];
+            $rules[] = [['tipo'], 'in', 'range' => ['U', 'A']];
         }
+        return $rules;
     }
-
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        // if (!UsuariosHelper::isAdmin())
-    }
-
 
     /**
      * @inheritdoc
@@ -71,7 +69,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             'id' => 'ID',
             'nombre' => 'Nombre',
-            'password' => 'Password',
+            'password' => 'Contraseña',
             'tipo' => 'Tipo',
             'passwordForm' => 'Contraseña',
             'passwordConfirmForm' => 'Confirmar contraseña',
@@ -82,57 +80,45 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->tipo === 'A';
     }
-    /**
-     * @return \yii\db\ActiveQuery
-     */
 
-    /**
-     * @inheritdoc
-     */
     public static function findIdentity($id)
     {
         return self::findOne($id);
     }
-    /**
-     * @inheritdoc
-     */
+
     public static function findIdentityByAccessToken($token, $type = null)
     {
     }
+
     /**
-     * Finds user by username
+     * Busca a un usuario por su nombre
      *
-     * @param string $username
+     * @param string $nombre
      * @return static|null
      */
     public static function findPorNombre($nombre)
     {
         return self::findOne(['nombre' => $nombre]);
     }
-    /**
-     * @inheritdoc
-     */
+
     public function getId()
     {
         return $this->id;
     }
-    /**
-     * @inheritdoc
-     */
+
     public function getAuthKey()
     {
     }
-    /**
-     * @inheritdoc
-     */
+
     public function validateAuthKey($authKey)
     {
     }
+
     /**
-     * Validates password
+     * Valida la contraseña
      *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
+     * @param string $password contraseña a validar
+     * @return bool si la contraseña indicada es la correcta para el usuario
      */
     public function validatePassword($password)
     {
@@ -144,10 +130,14 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         if (!parent::beforeSave($insert)) {
             return false;
         }
-        if ($this->scenario === self::SCENARIO_FORM) {
+
+        if ($this->scenario === self::SCENARIO_FORM_CREATE ||
+           ($this->scenario === self::SCENARIO_FORM_UPDATE &&
+            $this->passwordForm != '')) {
             $this->password =
                 Yii::$app->security->generatePasswordHash($this->passwordForm);
         }
+
         return true;
     }
 }

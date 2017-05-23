@@ -6,8 +6,8 @@ use Yii;
 use app\components\UsuariosHelper;
 use app\models\Usuario;
 use app\models\UsuarioSearch;
-use yii\web\Controller;
 use yii\filters\AccessControl;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -23,27 +23,27 @@ class UsuariosController extends Controller
     {
         return [
             'access' => [
-               'class' => AccessControl::className(),
-               'rules' => [
-                   [
-                       'allow' => true,
-                       //'actions' => ['index', 'create', 'delete', 'update', 'view'],
-                       'roles' => ['@'],
-                       'matchCallback' => function ($rule, $action) {
-                           return UsuariosHelper::isAdmin();
-                       },
-                   ],
-                   [
-                       'allow' => true,
-                       'actions' => ['update', 'view'],
-                       'roles' => ['@'],
-                       'matchCallback' => function ($rule, $action) {
-                           $id = Yii::$app->request->get('id');
-                           return Yii::$app->user->id == $id;
-                       }
-                   ],
-               ],
-           ],
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        //'actions' => ['index', 'create', 'delete', 'update', 'view'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return UsuariosHelper::isAdmin();
+                        },
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['update', 'view'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            $id = Yii::$app->request->get('id');
+                            return Yii::$app->user->id == $id;
+                        }
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -52,7 +52,6 @@ class UsuariosController extends Controller
             ],
         ];
     }
-
     /**
      * Lists all Usuario models.
      * @return mixed
@@ -61,13 +60,11 @@ class UsuariosController extends Controller
     {
         $searchModel = new UsuarioSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
     /**
      * Displays a single Usuario model.
      * @param integer $id
@@ -79,7 +76,6 @@ class UsuariosController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-
     /**
      * Creates a new Usuario model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -88,7 +84,7 @@ class UsuariosController extends Controller
     public function actionCreate()
     {
         $model = new Usuario();
-
+        $model->scenario = Usuario::SCENARIO_FORM_CREATE;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -97,7 +93,6 @@ class UsuariosController extends Controller
             ]);
         }
     }
-
     /**
      * Updates an existing Usuario model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -107,7 +102,7 @@ class UsuariosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $model->scenario = Usuario::SCENARIO_FORM_UPDATE;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -116,7 +111,6 @@ class UsuariosController extends Controller
             ]);
         }
     }
-
     /**
      * Deletes an existing Usuario model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -126,10 +120,8 @@ class UsuariosController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
-
     /**
      * Finds the Usuario model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
