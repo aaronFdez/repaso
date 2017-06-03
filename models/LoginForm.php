@@ -29,6 +29,14 @@ class LoginForm extends Model
             [['username', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['password', 'validatePassword'],
+            [['username'], function ($attribute, $params) {
+                if (!$this->hasErrors()) {
+                    $user = $this->getUser();
+                    if ($user && $user->token !==null) {
+                        $this->addError($attribute,  'Usuario no validado');
+                    }
+                }
+            }],
         ];
     }
 

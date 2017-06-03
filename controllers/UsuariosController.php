@@ -6,6 +6,7 @@ use Yii;
 use app\components\UsuariosHelper;
 use app\models\Usuario;
 use app\models\UsuarioSearch;
+use yii\helpers\Url;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -27,7 +28,7 @@ class UsuariosController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create'],
+                        'actions' => ['create', 'activar'],
                         'roles' => ['?'],
                     ],
                     [
@@ -57,6 +58,18 @@ class UsuariosController extends Controller
             ],
         ];
     }
+
+    public function actionActivar($token)
+    {
+        if (($usuario = Usuario::findOne(['token_val' => $token])) === null) {
+            return $this->goHome();
+        }
+
+        $usuario->token_val = null;
+        $x = $usuario->save();
+        return $this->redirect(['site/login']);
+    }
+
     /**
      * Lists all Usuario models.
      * @return mixed
@@ -91,6 +104,14 @@ class UsuariosController extends Controller
         $model = new Usuario();
         $model->scenario = Usuario::SCENARIO_FORM_CREATE;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $url = Url:: to(['usuarios/activar', 'token' => $model->token_val], true);
+            Yii:$app->mailer->compose()
+                ->setFrom(Yii:$app->params['smtpUsername'])
+                ->setTo($model->email)
+                ->setSubject('Activacion de cuenta')
+                ->setHtmlBody("Por favor, pulse en el siguiente enlace para activar su cuenta : <br />
+                                            <a href=\"$url\">Pinche aquí</a>")
+                ->send();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

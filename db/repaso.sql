@@ -101,12 +101,15 @@ left join ordenadores o on d.ordenador_id = o.id;
 drop table if exists usuarios cascade;
 
 create table usuarios (
-  id         bigserial      constraint pk_usuarios primary key,
-  nombre     varchar(20)    not null constraint uq_usuario_unico unique,
-  password   varchar(60)    not null,
-  tipo       char(1)        not null default 'U'
-                            constraint ck_tipo_usuario check (tipo in ('U', 'A'))
+    id                bigserial          constraint pk_usuarios primary key,
+    nombre       varchar(20)     not null constraint uq_usuario_unico unique,
+    password    varchar(60)     not null,
+    email          varchar(255),
+    tipo             char(1)            not null default 'U'
+                                               constraint ck_tipo_usuario check (tipo in ('U', 'A')),
+    token_val    varchar(32)    constraint uq_usuarios_token_val unique
 );
 
 insert into usuarios (nombre, password)
-    values ('admin', '$2y$13$3t.QgESLRu98NTHv2GSTfefE6rdPssSGq0eKofwl4f3QNIC.V4Bmq'), ('selene', '$2y$13$dcPzPWgrqie6gXNGMndgc.1jObD7rvzTemUDRN9.Awc9/GdDG8Zo2');
+    values ('admin', '$2y$13$3t.QgESLRu98NTHv2GSTfefE6rdPssSGq0eKofwl4f3QNIC.V4Bmq'),
+    ('selene', '$2y$13$dcPzPWgrqie6gXNGMndgc.1jObD7rvzTemUDRN9.Awc9/GdDG8Zo2');

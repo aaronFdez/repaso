@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
 
             'nombre',
-            'password',
             [
                     'attribute' => 'tipo',
                     'value' => 'tipoUsuario',
