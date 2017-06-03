@@ -45,18 +45,7 @@ AppAsset::register($this);
             UsuariosHelper::isAdmin() ? (
                ['label' => 'Usuarios', 'url' => ['usuarios/index']]
            ) : '',
-           UsuariosHelper::isGuest() ? (
-                ['label' => 'Registro', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Deslogueo (' . UsuariosHelper::get('nombre') . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
+          UsuariosHelper::menu(),
         ],
     ]);
     NavBar::end();
@@ -66,22 +55,7 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?php if (Mensaje::hayExito()): ?>
-            <?= Alert::widget([
-                'options' => [
-                    'class' => 'alert-success',
-                ],
-                'body' => Mensaje::exito(),
-            ]) ?>
-        <?php endif; ?>
-        <?php if (Mensaje::hayFracaso()): ?>
-            <?= Alert::widget([
-                'options' => [
-                    'class' => 'alert-danger',
-                ],
-                'body' => Mensaje::fracaso(),
-            ]) ?>
-        <?php endif; ?>
+        <?= Notificacion::widget() ?>
         <?= $content ?>
     </div>
 </div>
