@@ -30,4 +30,3 @@ class Notificacion extends Widget
         return $out;
     }
 }
-Contact GitHub API Training Shop Blog About

@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use app\components\UsuariosHelper;
 use app\helpers\Mensaje;
+use app\widgets\Notificacion;
 use yii\bootstrap\Alert;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;

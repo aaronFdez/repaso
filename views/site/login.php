@@ -25,12 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
         <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
         <?= $form->field($model, 'password')->passwordInput() ?>
 
         <div class="form-group">
-            <div class="col-lg-offset-1 col-lg-11">
+            <div class="col-lg-offset-1 col-lg-1">
                 <?= Html::submitButton('Registrarse', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            </div>
+            <div class="col-lg-10">
+                <?= Html::a('Crear', ['usuarios/create'], ['class' => 'btn btn-success']) ?>
             </div>
         </div>
 
